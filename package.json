@@ -3,7 +3,7 @@
   "productName": "govideo",
   "version": "1.0.0",
   "author": "go <907246009@qq.com>",
-  "description": "一个可以播放国内主流视频网站视频的视频播放客户段",
+  "description": "一个可以播放国内主流视频网站视频的视频播放客户端",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
