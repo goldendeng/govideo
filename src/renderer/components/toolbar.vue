@@ -27,8 +27,8 @@
 <style>
     .gotoolbar {
         align-items: center;
-        height: 60px;
-        line-height: 60px;
+        height: 100%;
+        /* line-height: 60px; */
         background-color: #D3DCE6;
         width: 100%;
         display: flex;

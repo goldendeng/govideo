@@ -18,15 +18,23 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 768,
     useContentSize: true,
-    width: 1000
+    width: 1024
   })
 
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
     mainWindow = null
+  })
+
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('enter-full-screen', true)
+  })
+
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('enter-full-screen', false)
   })
 }
 

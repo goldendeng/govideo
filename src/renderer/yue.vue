@@ -5,6 +5,7 @@
         @mouseenter.native="collapseOpen"
         @mouseleave.native="collapseClose"
         :collapse="isCollapse"
+        :style="{display: isFullScreen?'none':''}"
       >
         <div class="isClossTab" @click="collapseStatus">
           <i :class="isCollapse?'el-icon-d-arrow-right':'el-icon-d-arrow-left'" ></i>
@@ -24,7 +25,7 @@
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header :style="{height: isFullScreen? '0': '60px'}, {display: isFullScreen?'none':''}">
           <gotoolbar
             :parseInterfaces="interfaces"
             :title="title"
@@ -37,6 +38,7 @@
                 :src="selectUrl"
                 allowpopups="true"
                 class="video"
+                :style="{height: isFullScreen? '100vh': '100vh-60px'}"
         >
         </webview>
       </el-container>
@@ -55,6 +57,7 @@
       color: #333;
       text-align: center;
       height: 100vh;
+      width: 100%;
     }
 
     .isClossTab {
@@ -74,7 +77,7 @@
     }
     .el-header {
         padding: 0;
-        height: 60px;
+        /* height: 60px; */
     }
 
     .video {
@@ -103,6 +106,7 @@
 <script>
   import gotoolbar from './components/toolbar.vue';
   import * as api from './utils/fetch';
+  import { ipcRenderer } from 'electron';
   export default {
     data() {
       return {
@@ -118,7 +122,8 @@
         title: "",
         interfacesUrl: "",
         selectUrl: "https://www.douyu.com",
-        originUrl: ""
+        originUrl: "",
+        isFullScreen: false
       };
     },
     components: {
@@ -180,9 +185,13 @@
     created() {
       console.log("created");
       this.getSources();
+      ipcRenderer.on('enter-full-screen', (e, msg) => {
+        console.log("enter fullscreen");
+        console.log(e, msg);
+        this.isFullScreen = msg;
+      });
     },
-    beforeUpdate() {
-      console.log("beforeUpdate");
+    mounted() {
       var webview = document.getElementById("video");
       webview.addEventListener('dom-ready', () => {
         const title = webview.getTitle();
